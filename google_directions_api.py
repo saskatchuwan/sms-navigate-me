@@ -4,8 +4,6 @@ from pprint import pprint
 import json
 import config
 
-import twilio_sms
-
 def get_gmap_directions(origin, destination):
     GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/directions/json'
 
@@ -37,10 +35,12 @@ def format(response):
 
     return all_text_steps
 
-if __name__ == '__main__':
-    origin = os.environ.get('origin', '825 Battery St, San Francisco, CA')
-    destination = os.environ.get('destination', '389 Valencia St, San Francisco, CA 94103')
+# if __name__ == '__main__':
+#     origin = os.environ.get('origin', '825 Battery St, San Francisco, CA')
+#     destination = os.environ.get('destination', '389 Valencia St, San Francisco, CA 94103')
 
-    x = get_gmap_directions(origin, destination)
+#     x = get_gmap_directions(origin, destination)
 
-    pprint(x)
+#     twilio_sms.send_sms(x)
+
+#     pprint(x)
