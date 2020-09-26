@@ -1,16 +1,10 @@
-# Using Python requests, the Google Maps Directions API and Twilio.
-#
-# References:
-#
-# * http://docs.python-requests.org/en/latest/
-# * https://developers.google.com/maps/documentation/directions/
-
+import os
 import requests
 from pprint import pprint
 import json
 import config
 
-#import twilio_sms
+import twilio_sms
 
 def get_gmap_directions(origin, destination):
     GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/directions/json'
@@ -21,12 +15,15 @@ def get_gmap_directions(origin, destination):
         'key': config.google_maps_key
     }
 
-    # Do the request and get the response data
     req = requests.get(GOOGLE_MAPS_API_URL, params=payload)
     res = req.json()
+    print(res)
 
-    #re-format to readable response!
-    main_dir_dict = res['routes'][0]['legs'][0]
+    return format(res)
+
+def format(response):
+    #Use beautiful soup here?
+    main_dir_dict = response['routes'][0]['legs'][0]
     tot_distance = main_dir_dict['distance']    #{'text': '4.2 mi', 'value': 6765}
     tot_duration = main_dir_dict['duration']    #{'text': '15 mins', 'value': 906}
     start = main_dir_dict['start_address']      #str
@@ -38,20 +35,12 @@ def get_gmap_directions(origin, destination):
     for step in steps:
         all_text_steps.append(step['html_instructions'])
 
-
     return all_text_steps
 
+if __name__ == '__main__':
+    origin = os.environ.get('origin', '825 Battery St, San Francisco, CA')
+    destination = os.environ.get('destination', '389 Valencia St, San Francisco, CA 94103')
 
+    x = get_gmap_directions(origin, destination)
 
-# if __name__ == '__main__':
-#     origin = ''
-#     destination = ''
-
-#     x = get_gmap_directions(origin, destination)
-#     #twilio_sms.send_sms()
-
-#     pprint(x)
-
-#     # fout = open("response.txt","w")
-#     # fout.write(json.dumps(x))
-#     # fout.close()
+    pprint(x)
