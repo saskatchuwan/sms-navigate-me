@@ -2,7 +2,9 @@ import os
 import requests
 from pprint import pprint
 import json
-import config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_gmap_directions(origin, destination):
     GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/directions/json'
@@ -10,12 +12,11 @@ def get_gmap_directions(origin, destination):
     payload = {
         'origin': origin,
         'destination': destination,
-        'key': os.environ.get('google_maps_key', config.google_maps_key)
+        'key': os.environ.get('google_maps_key')
     }
 
     req = requests.get(GOOGLE_MAPS_API_URL, params=payload)
     res = req.json()
-    print(res)
 
     return format(res)
 
@@ -34,13 +35,3 @@ def format(response):
         all_text_steps.append(step['html_instructions'])
 
     return all_text_steps
-
-# if __name__ == '__main__':
-#     origin = os.environ.get('origin', '825 Battery St, San Francisco, CA')
-#     destination = os.environ.get('destination', '389 Valencia St, San Francisco, CA 94103')
-
-#     x = get_gmap_directions(origin, destination)
-
-#     twilio_sms.send_sms(x)
-
-#     pprint(x)

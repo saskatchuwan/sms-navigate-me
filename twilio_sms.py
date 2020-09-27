@@ -1,16 +1,19 @@
 from twilio.rest import Client
 import os
+from dotenv import load_dotenv
 
-account_sid = config.twilio_account_sid
-auth_token = config.twilio_auth_token
+load_dotenv()
+
+account_sid = os.environ.get('twilio_account_sid')
+auth_token = os.environ.get('twilio_auth_token')
 client = Client(account_sid, auth_token)
 
 def send_sms(text):
     message = client.messages \
                     .create(
                          body=text,
-                         from_=config.twilio_number,
-                         to=config.recieving_number
+                         from_=os.environ.get('twilio_number'),
+                         to=os.environ.get('receiving_number')
                      )
 
     return message.sid
