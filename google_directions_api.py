@@ -10,7 +10,7 @@ def get_gmap_directions(origin, destination):
     payload = {
         'origin': origin,
         'destination': destination,
-        'key': config.google_maps_key
+        'key': os.environ.get('google_maps_key', config.google_maps_key)
     }
 
     req = requests.get(GOOGLE_MAPS_API_URL, params=payload)
