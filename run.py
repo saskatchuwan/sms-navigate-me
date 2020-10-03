@@ -21,7 +21,7 @@ def incoming_sms():
 
     directions = google_directions_api.get_gmap_directions(origin, destination)
 
-    replyText = str(directions)
+    replyText = '%0a'.join(directions)
 
     resp = MessagingResponse()
     resp.message(replyText)
