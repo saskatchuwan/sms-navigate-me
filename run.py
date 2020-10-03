@@ -21,7 +21,7 @@ def incoming_sms():
 
     directions = google_directions_api.get_gmap_directions(origin, destination)
 
-    intro = '\U0001F441\U0001F444\U0001F441 There are the directions you were looking for: \n\n'
+    intro = '\U0001F441\U0001F444\U0001F441 Here are the directions you were looking for: \n\n'
     outro =  '\n\nGOOD LUCK \U0001F31F'
     replyText = intro + '\n\n'.join(directions) + outro
 
